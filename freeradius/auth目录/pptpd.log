@@ -1,0 +1,97 @@
+# 日志
+
+## 代码
+
+https://github.com/ppp-project/ppp/blob/master/pppd/plugins/radius/radattr.c
+
+## 难道是这两个狗东西?
+
+11/25都在这 https://github.com/ppp-project/ppp/blob/master/pppd/plugins/radius/radiusclient.h
+使用逻辑在这里: https://github.com/ppp-project/ppp/blob/04e6b8dde02a25d765cca3ff5e7ba03887346c6f/pppd/plugins/radius/radius.c#L449
+
+
+
+/* Vendor RADIUS attribute-value pairs */
+#define PW_MS_CHAP_CHALLENGE		11	/* string */
+#define PW_MS_CHAP_RESPONSE		1	/* string */
+#define PW_MS_CHAP2_RESPONSE		25	/* string */
+#define PW_MS_CHAP2_SUCCESS		26	/* string */
+#define PW_MS_MPPE_ENCRYPTION_POLICY	7	/* string */
+#define PW_MS_MPPE_ENCRYPTION_TYPE	8	/* string */
+#define PW_MS_MPPE_ENCRYPTION_TYPES PW_MS_MPPE_ENCRYPTION_TYPE
+#define PW_MS_CHAP_MPPE_KEYS		12	/* string */
+#define PW_MS_MPPE_SEND_KEY		16	/* string */
+#define PW_MS_MPPE_RECV_KEY		17	/* string */
+#define PW_MS_PRIMARY_DNS_SERVER	28	/* ipaddr */
+#define PW_MS_SECONDARY_DNS_SERVER	29	/* ipaddr */
+#define PW_MS_PRIMARY_NBNS_SERVER	30	/* ipaddr */
+#define PW_MS_SECONDARY_NBNS_SERVER	31	/* ipaddr */
+
+
+## 错误日志
+
+Plugin radius.so loaded.
+RADIUS plugin initialized.
+Plugin radattr.so loaded.
+RADATTR plugin initialized.
+pppd options in effect:
+debug		# (from /etc/ppp/options.pptpd)
+logfile /var/log/pppd.log		# (from /etc/ppp/options.pptpd)
+dump		# (from /etc/ppp/options.pptpd)
+plugin radius.so		# (from /etc/ppp/options.pptpd)
+plugin radattr.so		# (from /etc/ppp/options.pptpd)
+auth		# (from /etc/ppp/options.pptpd)
+refuse-pap		# (from /etc/ppp/options.pptpd)
+refuse-chap		# (from /etc/ppp/options.pptpd)
+refuse-mschap		# (from /etc/ppp/options.pptpd)
+name pptpd		# (from /etc/ppp/options.pptpd)
+radius-config-file /usr/local/etc/radiusclient/radiusclient.conf		# (from /etc/ppp/options.pptpd)
+115200		# (from command line)
+lock		# (from /etc/ppp/options.pptpd)
+local		# (from command line)
+novj		# (from /etc/ppp/options.pptpd)
+novjccomp		# (from /etc/ppp/options.pptpd)
+ipparam 13.229.98.36		# (from command line)
+ms-dns xxx # [don't know how to print value]		# (from /etc/ppp/options.pptpd)
+nodefaultroute		# (from /etc/ppp/options.pptpd)
+proxyarp		# (from /etc/ppp/options.pptpd)
+192.168.240.1:192.168.240.2		# (from command line)
+nobsdcomp		# (from /etc/ppp/options.pptpd)
+require-mppe-128		# (from /etc/ppp/options.pptpd)
+using channel 189
+Using interface ppp0
+Connect: ppp0 <--> /dev/pts/1
+sent [LCP ConfReq id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x1d3ccf0d> <pcomp> <accomp>]
+rcvd [LCP ConfReq id=0x0 <mru 1400> <magic 0x321a274c> <pcomp> <accomp> <callback CBCP>]
+sent [LCP ConfRej id=0x0 <callback CBCP>]
+rcvd [LCP ConfReq id=0x1 <mru 1400> <magic 0x321a274c> <pcomp> <accomp>]
+sent [LCP ConfAck id=0x1 <mru 1400> <magic 0x321a274c> <pcomp> <accomp>]
+sent [LCP ConfReq id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x1d3ccf0d> <pcomp> <accomp>]
+rcvd [LCP ConfAck id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x1d3ccf0d> <pcomp> <accomp>]
+sent [CHAP Challenge id=0x83 <84ad3d12fff115ecacd36386a0c9433c>, name = "pptpd"]
+rcvd [LCP Ident id=0x2 magic=0x321a274c "MSRASV5.20"]
+rcvd [LCP Ident id=0x3 magic=0x321a274c "MSRAS-0-EC2AMAZ-LU5MLR5"]
+rcvd [LCP Ident id=0x4 magic=0x321a274c "\37777777736\37777777655\034X\37777777742\37777777651\37777777725L\37777777665\37777777734\37777777751w\37777777640[\37777777732\37777777673"]
+rcvd [CHAP Response id=0x83 <d82ea2689fd63149adbbff24b34aaf1900000000000000000bdb7dd1cf5f0b5c6fdcddbce343ec87e541b52e053791a400>, name = "vpn7"]
+rc_avpair_new: unknown attribute 11
+rc_avpair_new: unknown attribute 25
+Peer vpn7 failed CHAP authentication
+sent [CHAP Failure id=0x83 ""]
+sent [LCP TermReq id=0x2 "Authentication failed"]
+rcvd [LCP TermAck id=0x2 "Authentication failed"]
+Connection terminated.
+RADATTR plugin removed file /var/run/radattr.ppp0.
+
+## d
+
+
+VENDOR          Microsoft       311
+
+#
+#  Microsoft's Radius Attributes
+#
+ATTRIBUTE       MS-CHAP-Response                    1       string
+ATTRIBUTE       MS-CHAP-Error                       2       string
+ATTRIBUTE       MS-CHAP-Challenge                   11      string
+ATTRIBUTE       MS-CHAP2-Response                   25      string
+ATTRIBUTE       MS-CHAP2-Success                    26      string

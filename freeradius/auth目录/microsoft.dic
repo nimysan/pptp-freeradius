@@ -1,0 +1,4 @@
+VENDOR          Microsoft                       311
+
+BEGIN-VENDOR    Microsoft
+ATTRIBUTE       MS-CHAP-Response                        11       string

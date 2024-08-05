@@ -1,0 +1,30 @@
+CoId={39F4BCD2-4FE8-4A49-B13B-CC2C4BFAAFF7}: The user EC2AMAZ-LU5MLR5\Administrator has successfully established a link to the Remote Access Server using the following device: 
+Server address/Phone Number = 54.218.82.211
+Device = WAN Miniport (PPTP)
+Port = VPN4-1
+MediaType = VPN.
+
+--
+
+CoId={39F4BCD2-4FE8-4A49-B13B-CC2C4BFAAFF7}: The user EC2AMAZ-LU5MLR5\Administrator has started dialing a VPN connection using a all-user connection profile named defaultting. The connection settings are: 
+Dial-in User = vpn7
+VpnStrategy = PPTP
+DataEncryption = Requested
+PrerequisiteEntry = 
+AutoLogon = No
+UseRasCredentials = Yes
+Authentication Type = EAP 
+Ipv4DefaultGateway = No
+Ipv4AddressAssignment = By Server
+Ipv4DNSServerAssignment = By Server
+Ipv6DefaultGateway = Yes
+Ipv6AddressAssignment = By Server
+Ipv6DNSServerAssignment = By Server
+IpDnsFlags = Register primary domain suffix
+IpNBTEnabled = Yes
+UseFlags = Private Connection
+ConnectOnWinlogon = No.
+
+--
+CoId={7622467B-F8CC-4BBA-8731-9D0429AAE29F}: The user EC2AMAZ-LU5MLR5\Administrator dialed a connection named defaultting which has failed. The error code returned on failure is 691.
+

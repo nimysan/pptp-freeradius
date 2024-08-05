@@ -1,0 +1,98 @@
+
+
+nodefaultroute		# (from /etc/ppp/options.pptpd)
+proxyarp		# (from /etc/ppp/options.pptpd)
+192.168.240.1:192.168.240.2		# (from command line)
+nobsdcomp		# (from /etc/ppp/options.pptpd)
+require-mppe-128		# (from /etc/ppp/options.pptpd)
+using channel 177
+Using interface ppp0
+Connect: ppp0 <--> /dev/pts/1
+sent [LCP ConfReq id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x3103e9ae> <pcomp> <accomp>]
+rcvd [LCP ConfReq id=0x0 <mru 1400> <magic 0x15f753f0> <pcomp> <accomp> <callback CBCP>]
+sent [LCP ConfRej id=0x0 <callback CBCP>]
+rcvd [LCP ConfReq id=0x1 <mru 1400> <magic 0x15f753f0> <pcomp> <accomp>]
+sent [LCP ConfAck id=0x1 <mru 1400> <magic 0x15f753f0> <pcomp> <accomp>]
+sent [LCP ConfReq id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x3103e9ae> <pcomp> <accomp>]
+rcvd [LCP ConfAck id=0x1 <asyncmap 0x0> <auth chap MS-v2> <magic 0x3103e9ae> <pcomp> <accomp>]
+sent [CHAP Challenge id=0xfb <9800db7f4d4d24ba36cdfdc8ae14484a>, name = "pptpd"]
+rcvd [LCP Ident id=0x2 magic=0x15f753f0 "MSRASV5.20"]
+rcvd [LCP Ident id=0x3 magic=0x15f753f0 "MSRAS-0-EC2AMAZ-LU5MLR5"]
+rcvd [LCP Ident id=0x4 magic=0x15f753f0 "\37777777636\37777777670J\37777777642\020\37777777731\37777777626D\37777777643,\016.\37777777675\006\37777777767\37777777705"]
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+rc_avpair_new: unknown attribute 11
+rc_avpair_new: unknown attribute 25
+# -- 非常重要 截止到以上都是在pptpd上服务器发生的错误, 因为无法读取到这两个属性,导致发给下游的radius的不对了.
+
+
+## 接下来, 虽然缺失这两个属性, 仍然尝试将chap v2的请求发送给freeRadius服务器, 从而导致freeRadius返回错误
+
+---
+rc_send_server: no reply from RADIUS server ip-172-31-26-167.us-west-2.compute.internal:1812
+Peer vpn7 failed CHAP authentication
+sent [CHAP Failure id=0xfb ""]
+sent [LCP TermReq id=0x2 "Authentication failed"]
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [CHAP Response id=0xfb <12d996314ac565d58bcae386415c4053000000000000000054f53140dc54270ffc8f97b5f3862852d93b156ec5db25fc00>, name = "vpn7"]
+Discarded non-LCP packet when LCP not open
+rcvd [LCP TermReq id=0x5 15 f7 53 f0 00 3c cd 74 00 00 02 ce]
+sent [LCP TermAck id=0x5]
+rcvd [LCP TermReq id=0x6 15 f7 53 f0 00 3c cd 74 00 00 02 ce]
+sent [LCP TermAck id=0x6]
+
+##  正确的请求应该是
+
+### 这是pptpd发送过去的请求
+
+(0) Received Access-Request Id 39 from 172.31.30.39:57836 to 172.31.26.167:1812 length 64
+(0)   Service-Type = Framed-User
+(0)   Framed-Protocol = PPP
+(0)   User-Name = "vpn7"
+(0)   Calling-Station-Id = "13.229.98.36"
+(0)   NAS-IP-Address = 172.31.30.39
+(0)   NAS-Port = 0
+
+### 正确的请求应该是:
+(0) Received Access-Request Id 16 from 192.168.1.100:38422 to 192.168.1.1:1812 length 114
+(0)   User-Name = "user1"
+(0)   NAS-IP-Address = 192.168.1.100
+(0)   NAS-Port = 1823
+(0)   MS-CHAP-Challenge = 0x6d1e9e1b5f3c4a5f8d3f1e6e9d5f3e4d
+(0)   MS-CHAP-Response = 0x0022000000000000000000000000000000000000000000003d7c827115de32fb40c635c8f90ba9ac
+(0)   MS-CHAP-CPW-2 = 0x4b9cc7deb3c087d7d86bca1e8f24c2b3b5da8cb7e9a6a46c
+
+
+验证:
+
+/usr/local/sbin/radiusclient -f /usr/local/etc/radiusclient/radiusclient.conf -p 0 -a  MS-CHAP2-Response=x
+
+
+
+--- smple ----
+/* Vendor RADIUS attribute-value pairs */
+#define PW_MS_CHAP_CHALLENGE		11	/* string */
+#define PW_MS_CHAP_RESPONSE		1	/* string */
+#define PW_MS_CHAP2_RESPONSE		25	/* string */
+
+
+VENDOR          Microsoft                       311
+
+BEGIN-VENDOR    Microsoft
+ATTRIBUTE       MS-CHAP-Challenge                       11      octets
+ATTRIBUTE       MS-CHAP2-Response                       25      octets
+END-VENDOR Microsoft
